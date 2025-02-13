@@ -1,6 +1,27 @@
+import pandas as pd
 import sqlite3
 
 DB_NAME = "usuarios.db"
+
+def exportar_usuarios_csv(nome_arquivo="usuarios.csv"):
+    """Exporta os usuários do banco de dados para um arquivo CSV."""
+    try:
+        with sqlite3.connect(DB_NAME) as conexao:
+            df = pd.read_sql("SELECT * FROM usuarios", conexao)
+            df.to_csv(nome_arquivo, index=False)
+        print(f"Dados exportados com sucesso para {nome_arquivo}")
+    except Exception as e:
+        print(f"Erro ao exportar usuários: {e}")
+
+def importar_usuarios_csv(nome_arquivo="usuarios.csv"):
+    """Importa usuários de um arquivo CSV para o banco de dados."""
+    try:
+        df = pd.read_csv(nome_arquivo)
+        with sqlite3.connect(DB_NAME) as conexao:
+            df.to_sql("usuarios", conexao, if_exists="append", index=False)
+        print(f"Dados importados com sucesso do {nome_arquivo}")
+    except Exception as e:
+        print(f"Erro ao importar usuários: {e}")
 
 def conectar():
     """Cria uma conexão com o banco de dados e retorna o cursor."""

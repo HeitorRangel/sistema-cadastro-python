@@ -1,14 +1,20 @@
-from banco_de_dados import criar_tabela, adicionar_usuario, listar_usuarios, atualizar_usuario, remover_usuario
+from banco_de_dados import (
+    criar_tabela, adicionar_usuario, listar_usuarios,
+    atualizar_usuario, remover_usuario, exportar_usuarios_csv,
+    importar_usuarios_csv
+)
 
 criar_tabela()
 
 def mostrar_menu():
-    print("Escolha uma opção:")
+    print("\nEscolha uma opção:")
     print("1 - Adicionar usuário")
     print("2 - Listar usuários")
     print("3 - Atualizar usuário")
     print("4 - Remover usuário")
-    print("5 - Sair")
+    print("5 - Exportar para CSV")
+    print("6 - Importar de CSV")
+    print("7 - Sair")
 
 def obter_idade():
     """Função para validar se a idade inserida é um número positivo."""
@@ -29,7 +35,7 @@ def menu():
 
         if opcao == "1":
             nome = input("Digite o nome do usuário: ")
-            idade = obter_idade()  # Aqui chamamos a função para validar a idade
+            idade = obter_idade()  # Validação da idade
             cidade = input("Digite a cidade do usuário: ")
             adicionar_usuario(nome, idade, cidade)
             print("Usuário adicionado com sucesso!")
@@ -38,16 +44,15 @@ def menu():
             usuarios = listar_usuarios()
             if usuarios:
                 print("Usuários cadastrados:")
-            for usuario in usuarios:
-                print(f"ID: {usuario[0]:<5} | Nome: {usuario[1]:<20} | Idade: {usuario[2]:<3} | Cidade: {usuario[3]:<20}")
+                for usuario in usuarios:
+                    print(f"ID: {usuario[0]:<5} | Nome: {usuario[1]:<20} | Idade: {usuario[2]:<3} | Cidade: {usuario[3]:<20}")
             else:
                 print("Nenhum usuário cadastrado.")
-
 
         elif opcao == "3":
             id_usuario = int(input("Digite o ID do usuário a ser atualizado: "))
             nome = input("Digite o novo nome do usuário: ")
-            idade = obter_idade()  # Aqui também chamamos a função para validar a idade
+            idade = obter_idade()
             cidade = input("Digite a nova cidade do usuário: ")
             atualizar_usuario(id_usuario, nome, idade, cidade)
             print("Usuário atualizado com sucesso!")
@@ -58,9 +63,17 @@ def menu():
             print("Usuário removido com sucesso!")
 
         elif opcao == "5":
+            exportar_usuarios_csv()
+            print("Dados exportados com sucesso!")
+
+        elif opcao == "6":
+            importar_usuarios_csv()
+            print("Dados importados com sucesso!")
+
+        elif opcao == "7":
             print("Saindo...")
             break
-
+        
         else:
             print("Opção inválida. Tente novamente.")
 
