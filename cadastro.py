@@ -3,6 +3,7 @@ from banco_de_dados import (
     atualizar_usuario, remover_usuario, exportar_usuarios_csv,
     importar_usuarios_csv
 )
+from tabulate import tabulate 
 
 criar_tabela()
 
@@ -43,24 +44,31 @@ def menu():
         elif opcao == "2":
             usuarios = listar_usuarios()
             if usuarios:
-                print("Usuários cadastrados:")
-                for usuario in usuarios:
-                    print(f"ID: {usuario[0]:<5} | Nome: {usuario[1]:<20} | Idade: {usuario[2]:<3} | Cidade: {usuario[3]:<20}")
+                headers = ["ID", "Nome", "Idade", "Cidade"]
+                print(tabulate(usuarios, headers=headers, tablefmt="grid"))  
             else:
                 print("Nenhum usuário cadastrado.")
 
         elif opcao == "3":
-            id_usuario = int(input("Digite o ID do usuário a ser atualizado: "))
-            nome = input("Digite o novo nome do usuário: ")
-            idade = obter_idade()
-            cidade = input("Digite a nova cidade do usuário: ")
-            atualizar_usuario(id_usuario, nome, idade, cidade)
-            print("Usuário atualizado com sucesso!")
+            try:
+                id_usuario = int(input("Digite o ID do usuário a ser atualizado: "))
+                nome = input("Digite o novo nome do usuário: ")
+                idade = obter_idade()
+                cidade = input("Digite a nova cidade do usuário: ")
+                atualizar_usuario(id_usuario, nome, idade, cidade)
+                print("Usuário atualizado com sucesso!")
+            except ValueError:
+                print("Erro: O ID deve ser um número inteiro válido.")
+    
 
         elif opcao == "4":
-            id_usuario = int(input("Digite o ID do usuário a ser removido: "))
-            remover_usuario(id_usuario)
-            print("Usuário removido com sucesso!")
+            try:
+                id_usuario = int(input("Digite o ID do usuário a ser removido: "))
+                if remover_usuario(id_usuario):  
+                    print("Usuário removido com sucesso!")
+            except ValueError:
+                print("Erro: O ID deve ser um número inteiro válido.")
+
 
         elif opcao == "5":
             exportar_usuarios_csv()

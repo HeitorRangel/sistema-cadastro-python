@@ -86,11 +86,15 @@ def remover_usuario(id_usuario):
             cursor.execute("DELETE FROM usuarios WHERE id = ?", (id_usuario,))
             if cursor.rowcount == 0:
                 print(f"Erro: Não existe um usuário com o ID {id_usuario}.")
+                return False  # Retorna False se nenhum usuário foi removido
             else:
                 conexao.commit()
                 print(f"Usuário com ID {id_usuario} removido com sucesso!")
+                return True  # Retorna True se a remoção foi bem-sucedida
     except sqlite3.Error as e:
         print(f"Erro ao remover usuário: {e}")
+        return False
+
 
 
 if __name__ == "__main__":

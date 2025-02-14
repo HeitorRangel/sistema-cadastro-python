@@ -4,3 +4,4 @@ __pycache__/
 usuarios.db
 .vscode/
 *.log
+usuarios.csv
