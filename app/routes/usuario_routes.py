@@ -4,11 +4,13 @@ from app.services.usuario_service import UsuarioService
 from app.repositories.usuario_repository import UsuarioRepository
 from app.models.usuario_model import UsuarioCreate, Usuario
 from app.db.database import get_db_connection
+from fastapi import Depends
+from app.dependencies import obter_usuario_atual
 
 router = APIRouter()
 
 @router.post("/", response_model=Usuario)
-def criar_usuario(usuario: UsuarioCreate, db: Connection = Depends(get_db_connection)):
+def criar_usuario(usuario: UsuarioCreate, db: Connection = Depends(get_db_connection), usuario_atual: dict = Depends(obter_usuario_atual)):
     repository = UsuarioRepository(db)
     service = UsuarioService(repository)
     usuario_id = service.criar_usuario(usuario)
