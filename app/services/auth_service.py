@@ -9,7 +9,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Configurações para criptografia de senha
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
 
 # Função para verificar a senha
 def verificar_senha(senha_plana: str, senha_criptografada: str):
