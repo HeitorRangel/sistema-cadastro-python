@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.routes.usuario_routes import router as usuario_router
 from app.routes.auth_routes import router as auth_router
+
 from app.db.init_db import criar_tabelas  # Importando a função de inicialização
 
 app = FastAPI(
